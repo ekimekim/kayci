@@ -1,0 +1,17 @@
+# This is an example only. It shows a simple case of a manually-triggered pipeline that runs
+# a single Job that prints "Hello World" then exits.
+apiVersion: kayci.invalid/v1beta1
+kind: Pipeline
+metadata:
+  name: hello-world
+spec:
+  jobs:
+  - template:
+      metadata:
+        name: main
+      spec:
+        template:
+          spec:
+            containers:
+            - image: alpine:latest
+              command: ["echo", "hello world"]
