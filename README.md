@@ -8,6 +8,14 @@ The jobs can be augmented with some extra metadata such as conditions or depende
 A **Trigger** details circumstances under which a **Pipeline** should be run.
 An instance of a triggered pipeline, including any metadata given by the trigger, is known
 as a **Run**.
+TODO what is the cleanest way to provide run metadata to Jobs?
+TODO how to handle jobs that fail in a way that shouldn't be retried (eg. test failure)
+
+All the above objects are namespaced and can only interact with other objects in their namespace.
+ie:
+* a Trigger in namespace A cannot trigger a Pipeline in namespace B
+* a Pipeline can only create Jobs in the same namespace
+However a single instance of the controller may manage pipelines across many or all namespaces.
 
 Because the jobs specified in a pipeline can end up quite verbose and repetitive,
 we highly recommend using some way to define them programmatically when creating your pipeline manifest,
@@ -36,7 +44,7 @@ under a different name that is only triggered by your test branch.
 #### Very limited feature set
 
 KayCI is intended to be as thin a wrapper around kubernetes Jobs as is practical.
-It's really more of an orchestrator for runnings Jobs, and those Jobs are then responsible
+It's really more of an orchestrator for running Jobs, and those Jobs are then responsible
 for other tasks that most CI systems would come with "out of the box". For example:
 * Grabbing a local checkout of the branch being built. Your Job will need a script or similar to do this itself.
 * Acquiring secrets. We suggest using kubernetes Secrets for this purpose and including them in your Jobs
