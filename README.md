@@ -1,4 +1,6 @@
 
+# WORK IN PROGRESS - NOT USABLE YET
+
 KayCI is a Kubernetes-native CI system.
 You define your pipelines as kubernetes objects, and KayCI acts as a controller to run them.
 
