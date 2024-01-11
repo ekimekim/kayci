@@ -1,0 +1,25 @@
+# This is an example only. It shows two jobs, where one only runs once the other has finished.
+apiVersion: kayci.invalid/v1beta1
+kind: Pipeline
+metadata:
+  name: dependencies
+spec:
+  jobs:
+  - name: first
+    template:
+      spec:
+        template:
+          spec:
+            containers:
+            - image: alpine:latest
+              command: ["echo", "first task"]
+  - name: second
+    depends:
+    - first
+    template:
+      spec:
+        template:
+          spec:
+            containers:
+            - image: alpine:latest
+              command: ["echo", "second task"]

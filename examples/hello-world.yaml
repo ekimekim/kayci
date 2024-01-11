@@ -6,9 +6,8 @@ metadata:
   name: hello-world
 spec:
   jobs:
-  - template:
-      metadata:
-        name: main
+  - name: main
+    template:
       spec:
         template:
           spec:
