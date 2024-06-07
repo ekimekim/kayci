@@ -11,11 +11,14 @@ The controller is conceptually split into several components.
 
 * Watches `Runs` and labelled `Jobs`.
 * Updates `RunStatus` to indicate `Job` state, one of:
-	* `Waiting` - Job dependencies have not yet completed
+	* `Waiting` - Job dependencies have not yet completed or the run is cancelled
 	* `Active` - Job is ready to run / is running
 	* `Completed` - Job has completed
+	* `Failed` - Job has reached max retries
   A `Run` is complete when all `Jobs` in it are complete.
-* Creates or deletes `Jobs` so that they exist if and only if they are in a `Run` and are `Active` or `Completed`
+  A `Run` is failed when any `Job` is failed.
+* Creates or deletes `Jobs` so that they exist if and only if they are in a `Run`
+* Modifies job suspend state to be suspended iff the job is `Waiting`
 
 ### Web interface
 
