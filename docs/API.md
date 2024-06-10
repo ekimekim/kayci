@@ -8,7 +8,11 @@ though we may still want to generate an equivalent file for human readability.
 A Pipeline describes a set of Jobs to run when the pipeline is triggered.
 
 - `spec.jobs`: Required. List of PipelineJob.
-- `spec.runRetentionPolicy`: TODO
+- `spec.runRetentionPolicy`: Controls when Runs should be deleted.
+  If not given, defaults to {maxCount: 100}. Set to {} to never delete.
+  - `maxCount`: If there are more than this many Runs associated with this pipeline,
+    delete the oldest (by create time).
+  - `maxAge`: Delete any Runs with a create time more than this long ago.
 
 #### PipelineJob
 
@@ -50,13 +54,21 @@ It can be cancelled, which suspends all jobs but leaves them available for intro
 or deleted, which also deletes all jobs.
 
 - `spec.cancelled`: Boolean, initially false. When set to true, all jobs will be suspended and
-  the run will enter a cancelled state.
+  the run will enter a cancelled state, unless it was already completed/failed.
 - `spec.jobs`: Read only. A copy of the pipeline's `spec.jobs` field made when the Run was created.
   Any subsequent changes to the Pipeline are *not* reflected in this Run.
 - `spec.parameters`: Read only. A set of string key-value pairs that describe information specific
   to this Run, for example what event triggered it, or a git commit id to build.
-
-TODO status
+- `status.status`: Overall status of the Run. One one:
+  - Completed: All jobs ran successfully
+  - Failed: At least one job failed
+  - Cancelled: spec.cancelled is true
+  - Active: otherwise
+- `status.jobStatus`: List of {name, status} where a job status is one of:
+  - Completed: Job ran successfully
+  - Failed: Job failed
+  - Waiting: Waiting for dependencies to complete, or Run is cancelled
+  - Active: otherwise
 
 ### Trigger
 

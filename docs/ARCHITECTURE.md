@@ -10,6 +10,7 @@ The controller is conceptually split into several components.
 ### Run manager
 
 * Watches `Runs` and labelled `Jobs`.
+* Deletes any runs that exceed the pipeline retention policy.
 * Updates `RunStatus` to indicate `Job` state, one of:
 	* `Waiting` - Job dependencies have not yet completed or the run is cancelled
 	* `Active` - Job is ready to run / is running
