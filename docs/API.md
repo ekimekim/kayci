@@ -9,7 +9,8 @@ A Pipeline describes a set of Jobs to run when the pipeline is triggered.
 
 - `spec.jobs`: Required. List of PipelineJob.
 - `spec.runRetentionPolicy`: Controls when Runs should be deleted.
-  If not given, defaults to {maxCount: 100}. Set to {} to never delete.
+  If not given, defaults to {maxCount: 10}. Set to {} to never delete.
+  Active runs are never deleted.
   - `maxCount`: If there are more than this many Runs associated with this pipeline,
     delete the oldest (by create time).
   - `maxAge`: Delete any Runs with a create time more than this long ago.
